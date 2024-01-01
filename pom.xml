@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <modules>
+        <module>order-service</module>
+    </modules>
+
+    <!--I will use Spring boot to create the microservices-->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.6.7</version>
+        <!--This relativePath is used to search local file system for parents Maven projects.
+        But since we have an external parent project which is SpringBoot, we don't need to search
+        local file system. The parent POM will be loaded from the Spring Boot library.
+        So to set the relativePath as empty is the best practice if your parents is an external project like springboot-->
+        <relativePath/>
+    </parent>
+
+    <groupId>com.food.ordering.system</groupId>
+    <artifactId>food-ordering-system</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <!--we can use two types of packaging, POM or JAR. The default one is JAR and it will create a
+    JAR file from the module. For the main project it doesn't make sense to use JAR packaging as
+    there is no source codes so I set it as POM here-->
+    <packaging>pom</packaging>
+
+    <properties>
+        <!--... so we don't need the properties for Maven compiler, which came automatically from Intellij,
+        so I will remove them-->
+        <!--<maven.compiler.source>17</maven.compiler.source>
+            <maven.compiler.target>17</maven.compiler.target>
+            -->
+        <maven-compiler-plugin.version>3.12.1</maven-compiler-plugin.version>
+    </properties>
+
+    <!--dependencyManagement, unifies the versions for dependencies in the child modules-->
+    <dependencyManagement>
+        <dependencies>
+            <!--.... and for the version I will use project.version which is 1.0-SNAPSHOT. When I put a
+            dependency in the management section, it will help to define the dependency application child
+            with the specified version, without actually downloading it. When a submodule or service
+            requires a dependency it will add this dependency into its dependency section -->
+            <dependency>
+                <groupId>com.food.ordering.system</groupId>
+                <artifactId>order-domain-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.food.ordering.system</groupId>
+                <artifactId>order-application-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.food.ordering.system</groupId>
+                <artifactId>order-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.food.ordering.system</groupId>
+                <artifactId>order-dataaccess</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.food.ordering.system</groupId>
+                <artifactId>order-messaging</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies></dependencies>
+
+    <build>
+        <plugins>
+            <!--The plugin that i will add is the maven-compiler-plugin which will set the java version for
+            Maven project.
+            This maven-compiler-plugin is necessary to force Intellij to use this specific release version-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <!--set it as 17 to indicate this is a java 17 project.
+                    Actually, this release tag will set the same Java version for source and targets....-->
+                    <release>17</release>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.github.ferstl</groupId>
+                <artifactId>depgraph-maven-plugin</artifactId>
+                <version>4.0.3</version> <!-- Reemplaza con la versión más reciente -->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>graph</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+
+    </build>
+
+
+</project>

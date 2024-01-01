@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>order-domain</artifactId>
+        <groupId>com.food.ordering.system</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>order-application-service</artifactId>
+
+    <properties>
+    </properties>
+
+    <dependencies>
+        <!--I should not add any outside dependency. However I will add the order-domain-core dependency here
+        to be able to call the core logic from the application service-->
+        <dependency>
+            <groupId>com.food.ordering.system</groupId>
+            <artifactId>order-domain-core</artifactId>
+            <!--the version, I want to manage all version in the base pom.xml file. For these reason I will go
+            to the base pom.xml(parent) and add this dependency into the dependencyManagement section....-->
+        </dependency>
+    </dependencies>
+
+</project>
